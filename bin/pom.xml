@@ -25,10 +25,10 @@
     </properties>
 
     <dependencies>
-    	<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.session</groupId>
             <artifactId>spring-session-core</artifactId>
@@ -52,11 +52,12 @@
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-mongodb</artifactId>
-            </dependency>
+            <version>2.0.9.RELEASE</version>
+        </dependency>
     </dependencies>
     <repositories>
         <repository>
-            <id>spring-libs-release</id>
+            <userId>spring-libs-release</userId>
             <name>Spring Releases</name>
             <url>https://repo.spring.io/libs-release</url>
             <snapshots>

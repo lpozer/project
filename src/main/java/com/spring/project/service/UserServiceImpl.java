@@ -1,0 +1,25 @@
+package com.spring.project.service;
+
+import com.spring.project.pojo.User;
+import com.spring.project.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Service;
+
+@Lazy
+@Service
+public class UserServiceImpl implements UserService{
+
+    private UserRepository userRepository;
+
+    @Autowired
+    public UserServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    @Override
+    public User createUser(User user) {
+    	user.setUserId(userRepository.count() + 1);
+        return userRepository.save(user);
+    }
+}
