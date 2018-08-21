@@ -4,4 +4,6 @@ import com.spring.project.pojo.User;
 
 public interface UserService {
     User createUser(User user);
+
+    User getUserById(Long userId);
 }
