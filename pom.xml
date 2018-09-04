@@ -60,7 +60,7 @@
     </dependencies>
     <repositories>
         <repository>
-            <id>spring-libs-release</id>
+            <messageId>spring-libs-release</messageId>
             <name>Spring Releases</name>
             <url>https://repo.spring.io/libs-release</url>
             <snapshots>
