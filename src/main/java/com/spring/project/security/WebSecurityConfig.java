@@ -1,5 +1,6 @@
 package com.spring.project.security;
 
+import com.spring.project.pojo.Authority;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -20,7 +21,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().authorizeRequests().antMatchers(HttpMethod.GET, "/")
-        .permitAll().antMatchers(HttpMethod.POST, "/user")
+        .permitAll().antMatchers(HttpMethod.PUT, "/user")
+        .permitAll().antMatchers(HttpMethod.DELETE, "/user/*")
         .permitAll().anyRequest()
         .authenticated().and().formLogin()
         .permitAll().and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"));

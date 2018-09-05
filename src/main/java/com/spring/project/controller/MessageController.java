@@ -1,5 +1,6 @@
 package com.spring.project.controller;
 
+import com.spring.project.pojo.Authority;
 import com.spring.project.pojo.Message;
 import com.spring.project.pojo.User;
 import com.spring.project.service.MessageService;
@@ -12,8 +13,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.websocket.server.PathParam;
+import java.security.AccessControlException;
 import java.util.List;
+
+import static com.spring.project.utils.SessionUtils.getAuthenticatedUser;
 
 @RestController
 public class MessageController {
@@ -23,10 +26,6 @@ public class MessageController {
 
     @PostMapping(path = "/message")
     public Message getMessage(@RequestBody Message message) {
-        message.setSenderId(getAuthenticatedUser().getUserId());
-        message.setMessageId(generateMessageId(message.getText()));
-        message.setRead(false);
-        message.setSentTime(System.currentTimeMillis());
         return messageService.createMessage(message);
     }
 
@@ -40,14 +39,19 @@ public class MessageController {
         return messageService.readMessage(messageId);
     }
 
-    private User getAuthenticatedUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return (User) authentication.getPrincipal();
+    @GetMapping(path = "message/audit")
+    public List<Message> auditMessages() {
+        if (!getAuthenticatedUser().getAuthorities().contains(Authority.AUDITOR)) {
+            throw new AccessControlException("User does not have permission to perform this action");
+        }
+        return messageService.getAllMessages();
     }
 
-    private String generateMessageId(String messageText) {
-        Long time = System.currentTimeMillis();
-        String concatenated = messageText + time;
-        return String.valueOf(concatenated.hashCode());
+    @GetMapping(path = "message/audit/{userId}")
+    public List<Message> auditMessages(@PathVariable Long userId) {
+        if (!getAuthenticatedUser().getAuthorities().contains(Authority.AUDITOR)) {
+            throw new AccessControlException("User does not have permission to perform this action");
+        }
+        return messageService.getAllMessagesByUserId(userId);
     }
 }

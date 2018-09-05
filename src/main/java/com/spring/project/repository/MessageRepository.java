@@ -11,4 +11,5 @@ public interface MessageRepository extends CrudRepository<Message, String> {
 
     List<Message> findAllByRecipientIdAndReadFalse(Long recipientId);
 
+    List<Message> findAllByRecipientIdOrSenderId(Long recipientId, Long senderId);
 }

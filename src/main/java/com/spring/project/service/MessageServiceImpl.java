@@ -7,6 +7,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static com.google.common.collect.Lists.newArrayList;
+import static com.spring.project.utils.SessionUtils.getAuthenticatedUser;
+
 @Lazy
 @Service
 public class MessageServiceImpl implements MessageService {
@@ -19,6 +22,10 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public Message createMessage(Message message) {
+        message.setSenderId(getAuthenticatedUser().getUserId());
+        message.setMessageId(generateMessageId(message.getText()));
+        message.setRead(false);
+        message.setSentTime(System.currentTimeMillis());
         return messageRepository.save(message);
     }
 
@@ -35,4 +42,19 @@ public class MessageServiceImpl implements MessageService {
         return message.getText();
     }
 
+    @Override
+    public List<Message> getAllMessages() {
+        return newArrayList(messageRepository.findAll());
+    }
+
+    @Override
+    public List<Message> getAllMessagesByUserId(Long userId) {
+        return messageRepository.findAllByRecipientIdOrSenderId(userId, userId);
+    }
+
+    private String generateMessageId(String messageText) {
+        Long time = System.currentTimeMillis();
+        String concatenated = messageText + time;
+        return String.valueOf(concatenated.hashCode());
+    }
 }

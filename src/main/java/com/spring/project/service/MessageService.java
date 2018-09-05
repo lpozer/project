@@ -12,4 +12,8 @@ public interface MessageService {
     List<Message> getUnreadMessagesByRecipientId(Long recipientId);
 
     String readMessage(String messageId);
+
+    List<Message> getAllMessages();
+
+    List<Message> getAllMessagesByUserId(Long userId);
 }

@@ -57,10 +57,15 @@
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-mongodb</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>18.0</version>
+        </dependency>
     </dependencies>
     <repositories>
         <repository>
-            <messageId>spring-libs-release</messageId>
+            <id>spring-libs-release</id>
             <name>Spring Releases</name>
             <url>https://repo.spring.io/libs-release</url>
             <snapshots>
